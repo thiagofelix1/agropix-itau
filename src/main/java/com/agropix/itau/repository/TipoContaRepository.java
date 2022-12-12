@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface TipoContaRepository extends JpaRepository<TipoConta, UUID> {
+
 }

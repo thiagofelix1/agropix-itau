@@ -9,6 +9,8 @@ import com.agropix.itau.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -17,24 +19,36 @@ public class ContaService {
 
     private final ContaRepository repository;
     private  final ContaMapper mapper;
+    private final ClienteService clienteService;
+    private final TipoContaService tipoContaService;
 
-    // ToDo: Create Conta Service
-    public ContaResponse save(ContaRequest contaRequest) {
+    public Conta save(ContaRequest contaRequest) {
         Conta conta = mapper.toModel(contaRequest);
         repository.save(conta);
-        ContaResponse contaResponse = mapper.toResponse(conta);
-        return contaResponse;
+        return conta;
     }
 
-    // ToDo: Read Conta Service
-    public ContaResponse findById(UUID contaId) {
-        Conta conta = repository.findById(contaId).get();
-        ContaResponse contaResponse = mapper.toResponse(conta);
-        return contaResponse;
+    public Conta findById(UUID contaId) {
+        Conta conta = repository.findById(contaId)
+                .orElseThrow(() -> new RuntimeException("Conta não encontrada!"));
+        return conta;
     }
 
-    // ToDo: Update Conta Service
+    public Conta update(UUID contaId, ContaRequest contaRequest) {
+        Conta conta = findById(contaId);
+        conta = mapper.toModel(contaRequest);
+        conta.setId(contaId);
+        repository.save(conta);
+        return conta;
+    }
 
-    // ToDo: Delete Conta Service
+    public void delete(UUID contaId) {
+        Conta conta = findById(contaId);
+        repository.delete(conta);
+    }
+
+    public List<Conta> findAll() {
+        return repository.findAll();
+    }
 
 }
