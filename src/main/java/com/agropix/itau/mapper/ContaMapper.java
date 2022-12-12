@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ContaMapper {
 
-    // ToDo: Create Conta Mapper
-
     ContaResponse toResponse(Conta conta);
     Conta toModel(ContaRequest contaRequest);
 

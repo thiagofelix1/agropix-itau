@@ -14,6 +14,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class TipoConta {
+
+    //ToDo: Validações do Tipo Conta
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
