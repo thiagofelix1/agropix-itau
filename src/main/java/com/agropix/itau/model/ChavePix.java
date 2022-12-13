@@ -28,4 +28,9 @@ public class ChavePix {
     @NotNull
     private String tipo;
 
+    @ManyToOne
+    @JoinColumn(name = "conta_id")
+    @NotNull
+    private Conta conta;
+
 }

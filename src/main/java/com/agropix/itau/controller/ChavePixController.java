@@ -1,6 +1,6 @@
 package com.agropix.itau.controller;
 
-import com.agropix.itau.dto.ChavePixRequest;
+import com.agropix.itau.dto.ChavePixCreationRequest;
 import com.agropix.itau.dto.ChavePixResponse;
 import com.agropix.itau.mapper.ChavePixMapper;
 import com.agropix.itau.model.ChavePix;
@@ -22,8 +22,8 @@ public class ChavePixController {
     private final ChavePixMapper mapper;
 
     @PostMapping()
-    public ResponseEntity<ChavePixResponse> create(@RequestBody ChavePixRequest chavePixRequest) {
-        ChavePix chavePix = service.save(chavePixRequest);
+    public ResponseEntity<ChavePixResponse> create(@RequestBody ChavePixCreationRequest chavePixCreationRequest) {
+        ChavePix chavePix = service.save(chavePixCreationRequest);
         ChavePixResponse chavePixResponse = mapper.toResponse(chavePix);
         return ResponseEntity.status(HttpStatus.CREATED).body(chavePixResponse);
     }
@@ -40,13 +40,6 @@ public class ChavePixController {
         List<ChavePix> chavePixList = service.findAll();
         List<ChavePixResponse> chavePixResponseList = mapper.toResponseList(chavePixList);
         return ResponseEntity.status(HttpStatus.OK).body(chavePixResponseList);
-    }
-
-    @PutMapping("{chavePixId}")
-    public ResponseEntity<ChavePixResponse> update(@RequestBody ChavePixRequest chavePixRequest, @PathVariable UUID chavePixId) {
-        ChavePix chavePix = service.update(chavePixId, chavePixRequest);
-        ChavePixResponse chavePixResponse = mapper.toResponse(chavePix);
-        return ResponseEntity.status(HttpStatus.OK).body(chavePixResponse);
     }
 
     @DeleteMapping("{chavePixId}")

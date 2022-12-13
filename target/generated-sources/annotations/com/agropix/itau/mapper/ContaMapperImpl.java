@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-13T12:24:57-0400",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.17 (Ubuntu)"
+    date = "2022-12-13T18:30:22-0300",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.16.1 (Azul Systems, Inc.)"
 )
 @Component
 public class ContaMapperImpl implements ContaMapper {
@@ -23,6 +23,15 @@ public class ContaMapperImpl implements ContaMapper {
         }
 
         ContaResponse contaResponse = new ContaResponse();
+
+        contaResponse.setId( conta.getId() );
+        contaResponse.setNumeroConta( conta.getNumeroConta() );
+        contaResponse.setDigito( conta.getDigito() );
+        contaResponse.setAgencia( conta.getAgencia() );
+        contaResponse.setCliente( conta.getCliente() );
+        contaResponse.setSaldo( conta.getSaldo() );
+        contaResponse.setTipoConta( conta.getTipoConta() );
+        contaResponse.setNomeBanco( conta.getNomeBanco() );
 
         return contaResponse;
     }
