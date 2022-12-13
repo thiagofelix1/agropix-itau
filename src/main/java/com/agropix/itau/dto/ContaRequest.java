@@ -1,27 +1,24 @@
 package com.agropix.itau.dto;
 
-import com.agropix.itau.model.Cliente;
-import com.agropix.itau.model.TipoConta;
+import lombok.Data;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.UUID;
 
+@Data
 public class ContaRequest {
 
-    // ToDo: Criar Conta Request
-    @NotNull
+    @NotNull(message = "Número da conta do cliente não pode ser nulo!")
     private Long numeroConta;
-    @NotNull
+    @NotNull@NotNull(message = "Digito do número da conta do cliente não pode ser nulo!")
     private Integer digito;
-    @NotNull
+    @NotNull@NotNull(message = "Agencia do cliente da conta não pode ser nulo!")
     private String agencia;
-    @NotNull
+    @NotNull(message = "Id do cliente da conta não pode ser nulo!")
     private UUID clienteId;
-    @NotNull
+    @NotNull(message = "Id do tipo da conta não pode ser nulo!")
     private UUID tipoContaId;
-    @NotNull
+    @NotNull(message = "Nome do banco não pode ser nulo!")
     private String nomeBanco;
 
 }

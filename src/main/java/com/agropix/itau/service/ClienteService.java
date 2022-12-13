@@ -1,25 +1,52 @@
 package com.agropix.itau.service;
 
+import com.agropix.itau.dto.ClienteRequest;
 import com.agropix.itau.dto.ContaRequest;
 import com.agropix.itau.dto.ContaResponse;
+import com.agropix.itau.mapper.ClienteMapper;
+import com.agropix.itau.mapper.ContaMapper;
 import com.agropix.itau.model.Cliente;
 import com.agropix.itau.model.Conta;
 import com.agropix.itau.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class ClienteService {
 
-    // ToDo: Create Conta Service
+    private final ClienteRepository repository;
+    private final ClienteMapper mapper;
 
-    // ToDo: Read Conta Service
+    public Cliente save(ClienteRequest clienteRequest) {
+        Cliente cliente = mapper.toModel(clienteRequest);
+        repository.save(cliente);
+        return cliente;
+    }
 
-    // ToDo: Update Conta Service
+    public Cliente findById(UUID contaId) {
+        return repository.findById(contaId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    }
 
-    // ToDo: Delete Conta Service
+    public Cliente update(UUID clienteId, ClienteRequest clienteRequest) {
+        Cliente cliente = findById(clienteId);
+        cliente = mapper.toModel(clienteRequest);
+        cliente.setId(clienteId);
+        repository.save(cliente);
+        return cliente;
+    }
+
+    public void delete(UUID clienteId) {
+        Cliente cliente = findById(clienteId);
+        repository.delete(cliente);
+    }
+
+    public List<Cliente> findAll() {
+        return repository.findAll();
+    }
 
 }

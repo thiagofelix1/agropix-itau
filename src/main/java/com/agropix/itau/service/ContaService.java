@@ -4,7 +4,9 @@ package com.agropix.itau.service;
 import com.agropix.itau.dto.ContaRequest;
 import com.agropix.itau.dto.ContaResponse;
 import com.agropix.itau.mapper.ContaMapper;
+import com.agropix.itau.model.Cliente;
 import com.agropix.itau.model.Conta;
+import com.agropix.itau.model.TipoConta;
 import com.agropix.itau.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,10 @@ public class ContaService {
 
     public Conta save(ContaRequest contaRequest) {
         Conta conta = mapper.toModel(contaRequest);
+        TipoConta tipoConta = tipoContaService.findTipoContaById(contaRequest.getTipoContaId());
+        Cliente cliente = clienteService.findById(contaRequest.getClienteId());
+        conta.setCliente(cliente);
+        conta.setTipoConta(tipoConta);
         repository.save(conta);
         return conta;
     }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
@@ -14,13 +15,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class TipoConta {
-
-    //ToDo: Validações do Tipo Conta
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column
+    @NotNull
     private String tipoConta;
+
 }

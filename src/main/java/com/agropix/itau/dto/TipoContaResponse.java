@@ -1,7 +1,10 @@
 package com.agropix.itau.dto;
 
+import java.util.UUID;
+
 public class TipoContaResponse {
 
-    // ToDo: Criar Tipo Conta Response
+    private UUID id;
+    private String tipoConta;
 
 }

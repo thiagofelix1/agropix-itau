@@ -1,7 +1,10 @@
 package com.agropix.itau.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class TipoContaRequest {
 
-    // ToDo: Criar Tipo Conta Request
+    @NotNull(message = "Tipo Conta não pode ser nulo!")
+    private String tipoConta;
 
 }

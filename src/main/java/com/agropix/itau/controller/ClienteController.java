@@ -1,13 +1,57 @@
 package com.agropix.itau.controller;
 
+import com.agropix.itau.dto.ClienteRequest;
+import com.agropix.itau.dto.ClienteResponse;
+import com.agropix.itau.mapper.ClienteMapper;
+import com.agropix.itau.model.Cliente;
+import com.agropix.itau.service.ClienteService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/cliente")
 public class ClienteController {
 
-    // ToDo: Create Cliente Controller
+    private final ClienteService service;
+    private final ClienteMapper mapper;
 
-    // ToDo: Read Cliente Controller
+    @PostMapping()
+    public ResponseEntity<ClienteResponse> create(@RequestBody ClienteRequest clienteRequest) {
+        Cliente cliente = service.save(clienteRequest);
+        ClienteResponse clienteResponse = mapper.toResponse(cliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteResponse);
+    }
 
-    // ToDo: Update Cliente Controller
+    @GetMapping("{clienteId}")
+    public ResponseEntity<ClienteResponse> findById(@PathVariable UUID clienteId) {
+        Cliente cliente = service.findById(clienteId);
+        ClienteResponse clienteResponse = mapper.toResponse(cliente);
+        return ResponseEntity.status(HttpStatus.OK).body(clienteResponse);
+    }
 
-    // ToDo: Delete Cliente Controller
+    @GetMapping()
+    public ResponseEntity<List<ClienteResponse>> findAll() {
+        List<Cliente> clienteList = service.findAll();
+        List<ClienteResponse> clienteResponseList = mapper.toResponseList(clienteList);
+        return ResponseEntity.status(HttpStatus.OK).body(clienteResponseList);
+    }
+
+    @PutMapping("{clienteId}")
+    public ResponseEntity<ClienteResponse> update(@RequestBody ClienteRequest clienteRequest, @PathVariable UUID clienteId) {
+        Cliente cliente = service.update(clienteId, clienteRequest);
+        ClienteResponse clienteResponse = mapper.toResponse(cliente);
+        return ResponseEntity.status(HttpStatus.OK).body(clienteResponse);
+    }
+
+    @DeleteMapping("{clienteId}")
+    public void delete(@PathVariable UUID clienteId) {
+        service.delete(clienteId);
+    }
 
 }

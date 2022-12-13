@@ -1,30 +1,47 @@
 package com.agropix.itau.service;
 
 import com.agropix.itau.dto.TipoContaRequest;
-import com.agropix.itau.dto.TipoContaResponse;
 import com.agropix.itau.mapper.TipoContaMapper;
 import com.agropix.itau.model.TipoConta;
 import com.agropix.itau.repository.TipoContaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class TipoContaService {
 
-    private final TipoContaRepository tipoContaRepository;
-    private final TipoContaMapper tipoContaMapper;
+    private final TipoContaRepository repository;
+    private final TipoContaMapper mapper;
 
-    // ToDo: Create Tipo Conta Service
     public TipoConta create (TipoContaRequest tipoContaRequest) {
-        TipoConta tipoConta = tipoContaMapper.toModel(tipoContaRequest);
-        return tipoContaRepository.save(tipoConta);
+        TipoConta tipoConta = mapper.toModel(tipoContaRequest);
+        return repository.save(tipoConta);
     }
 
-    // ToDo: Read Tipo Conta Service
+    public TipoConta findTipoContaById(UUID tipoContaId) {
+        return repository.findById(tipoContaId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    }
 
-    // ToDo: Update Tipo Conta Service
+    public TipoConta update(UUID tipoContaId, TipoContaRequest tipoContaRequest) {
+        TipoConta tipoConta = findTipoContaById(tipoContaId);
+        tipoConta = mapper.toModel(tipoContaRequest);
+        tipoConta.setId(tipoContaId);
+        repository.save(tipoConta);
+        return tipoConta;
+    }
 
-    // ToDo: Delete Tipo Conta Service
+    public void delete(UUID tipoContaId) {
+        TipoConta tipoConta = findTipoContaById(tipoContaId);
+        repository.delete(tipoConta);
+    }
+
+    public List<TipoConta> findAll() {
+        return repository.findAll();
+    }
 
 }
