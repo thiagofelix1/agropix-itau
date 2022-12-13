@@ -1,12 +1,8 @@
 package com.agropix.itau.service;
 
 import com.agropix.itau.dto.ClienteRequest;
-import com.agropix.itau.dto.ContaRequest;
-import com.agropix.itau.dto.ContaResponse;
 import com.agropix.itau.mapper.ClienteMapper;
-import com.agropix.itau.mapper.ContaMapper;
 import com.agropix.itau.model.Cliente;
-import com.agropix.itau.model.Conta;
 import com.agropix.itau.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +25,7 @@ public class ClienteService {
 
     public Cliente findById(UUID contaId) {
         return repository.findById(contaId)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado!"));
     }
 
     public Cliente update(UUID clienteId, ClienteRequest clienteRequest) {
