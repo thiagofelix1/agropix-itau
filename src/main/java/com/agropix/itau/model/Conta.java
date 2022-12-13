@@ -4,26 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.UUID;
 @Entity
 @Getter
 public class Conta {
-
-    public Conta() {
-        this.saldo = new BigDecimal(0);
-    }
-
-    public Conta(UUID id, Long numeroConta, Integer digito, String agencia, Cliente cliente, TipoConta tipoConta, String nomeBanco) {
-        this.id = id;
-        this.numeroConta = numeroConta;
-        this.digito = digito;
-        this.agencia = agencia;
-        this.cliente = cliente;
-        this.tipoConta = tipoConta;
-        this.nomeBanco = nomeBanco;
-        this.saldo = new BigDecimal(0);
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,7 +31,7 @@ public class Conta {
 
     @Column
     @NotNull
-    private BigDecimal saldo;
+    private Double saldo;
 
     @ManyToOne
     @JoinColumn(name = "tipo_conta_id")
@@ -58,16 +42,31 @@ public class Conta {
     @NotNull
     private String nomeBanco;
 
-    public void deposito(BigDecimal valor) {
-        saldo.add(valor);
+    public Conta() {
+        this.saldo = 0.0;
     }
 
-    public void saque(BigDecimal valor) {
+    public Conta(UUID id, Long numeroConta, Integer digito, String agencia, Cliente cliente, TipoConta tipoConta, String nomeBanco) {
+        this.id = id;
+        this.numeroConta = numeroConta;
+        this.digito = digito;
+        this.agencia = agencia;
+        this.cliente = cliente;
+        this.tipoConta = tipoConta;
+        this.nomeBanco = nomeBanco;
+        this.saldo = 0.0;
+    }
 
-        if (saldo.compareTo(valor) == -1) {
+    public void deposito(Double valor) {
+        saldo+=valor;
+    }
+
+    public void saque(Double valor) {
+
+        if (saldo < valor) {
             throw new IllegalArgumentException("valor socilitado de saque é maior que o saldo");
         }
-        saldo.subtract(valor);
+        saldo -= valor;
     }
 
     public void setId(UUID id) {

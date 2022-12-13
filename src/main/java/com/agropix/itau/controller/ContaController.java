@@ -56,14 +56,14 @@ public class ContaController {
 
     @PostMapping("/{contaId}/deposito")
     public ResponseEntity<?> deposito(@RequestBody Double valor, @PathVariable UUID contaId) {
-        Conta conta = service.deposit(contaId, new BigDecimal(valor));
+        Conta conta = service.deposit(contaId, valor);
         ContaResponse contaResponse = mapper.toResponse(conta);
         return ResponseEntity.status(HttpStatus.OK).body(contaResponse);
     }
 
     @PostMapping("/{contaId}/saque")
     public ResponseEntity<?> saque(@RequestBody Double valor, @PathVariable UUID contaId) {
-        Conta conta = service.withdraw(contaId, new BigDecimal(valor));
+        Conta conta = service.withdraw(contaId, valor);
         ContaResponse contaResponse = mapper.toResponse(conta);
         return ResponseEntity.status(HttpStatus.OK).body(contaResponse);
     }

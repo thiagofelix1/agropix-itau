@@ -58,14 +58,14 @@ public class ContaService {
         return repository.findAll();
     }
 
-    public Conta deposit(UUID contaId, BigDecimal valor) {
+    public Conta deposit(UUID contaId, Double valor) {
         Conta conta = findById(contaId);
         conta.deposito(valor);
         repository.save(conta);
         return conta;
     }
 
-    public Conta withdraw(UUID contaId, BigDecimal valor) {
+    public Conta withdraw(UUID contaId, Double valor) {
         Conta conta = findById(contaId);
         conta.saque(valor);
         repository.save(conta);

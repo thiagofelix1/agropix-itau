@@ -2,10 +2,11 @@ package com.agropix.itau.dto;
 
 import com.agropix.itau.model.Cliente;
 import com.agropix.itau.model.TipoConta;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.UUID;
-
+@Data
 public class ContaResponse {
 
     private UUID id;
