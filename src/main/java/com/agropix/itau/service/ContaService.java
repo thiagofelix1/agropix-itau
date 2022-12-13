@@ -11,6 +11,7 @@ import com.agropix.itau.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,6 +56,20 @@ public class ContaService {
 
     public List<Conta> findAll() {
         return repository.findAll();
+    }
+
+    public Conta deposit(UUID contaId, BigDecimal valor) {
+        Conta conta = findById(contaId);
+        conta.deposito(valor);
+        repository.save(conta);
+        return conta;
+    }
+
+    public Conta withdraw(UUID contaId, BigDecimal valor) {
+        Conta conta = findById(contaId);
+        conta.saque(valor);
+        repository.save(conta);
+        return conta;
     }
 
 }

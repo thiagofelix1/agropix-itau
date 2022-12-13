@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,6 +52,20 @@ public class ContaController {
     @DeleteMapping("{contaId}")
     public void delete(@PathVariable UUID contaId) {
         service.delete(contaId);
+    }
+
+    @PostMapping("/{contaId}/deposito")
+    public ResponseEntity<?> deposito(@RequestBody Double valor, @PathVariable UUID contaId) {
+        Conta conta = service.deposit(contaId, new BigDecimal(valor));
+        ContaResponse contaResponse = mapper.toResponse(conta);
+        return ResponseEntity.status(HttpStatus.OK).body(contaResponse);
+    }
+
+    @PostMapping("/{contaId}/saque")
+    public ResponseEntity<?> saque(@RequestBody Double valor, @PathVariable UUID contaId) {
+        Conta conta = service.withdraw(contaId, new BigDecimal(valor));
+        ContaResponse contaResponse = mapper.toResponse(conta);
+        return ResponseEntity.status(HttpStatus.OK).body(contaResponse);
     }
 
 }

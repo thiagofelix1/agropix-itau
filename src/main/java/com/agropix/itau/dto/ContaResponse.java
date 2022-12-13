@@ -13,7 +13,7 @@ public class ContaResponse {
     private Integer digito;
     private String agencia;
     private Cliente cliente;
-    private BigDecimal saldo;
+    private Double saldo;
     private TipoConta tipoConta;
     private String nomeBanco;
 
