@@ -1,6 +1,6 @@
 package com.agropix.itau.mapper;
 
-import com.agropix.itau.dto.ChavePixCreationRequest;
+import com.agropix.itau.dto.ChavePixRequest;
 import com.agropix.itau.dto.ChavePixResponse;
 import com.agropix.itau.model.ChavePix;
 import org.mapstruct.Mapper;
@@ -13,7 +13,7 @@ import java.util.List;
 public interface ChavePixMapper {
 
     ChavePixResponse toResponse(ChavePix chavePix);
-    ChavePix toModel(ChavePixCreationRequest chavePixCreationRequest);
+    ChavePix toModel(ChavePixRequest chavePixRequest);
     List<ChavePixResponse> toResponseList(List<ChavePix> chavePixList);
 
 }

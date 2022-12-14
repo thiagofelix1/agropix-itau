@@ -1,9 +1,16 @@
 package com.agropix.itau.dto;
 
+import com.agropix.itau.model.Conta;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Data
 public class ChavePixResponse {
 
-    String nomeTitular;
-    String chave;
-    String tipo;
+    private String chavePix;
 
+    private String tipo;
+
+    private Conta conta;
 }

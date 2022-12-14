@@ -1,6 +1,7 @@
 package com.agropix.itau.controller;
 
-import com.agropix.itau.dto.ChavePixCreationRequest;
+import com.agropix.itau.dto.ChavePixBacenResponse;
+import com.agropix.itau.dto.ChavePixRequest;
 import com.agropix.itau.dto.ChavePixResponse;
 import com.agropix.itau.mapper.ChavePixMapper;
 import com.agropix.itau.model.ChavePix;
@@ -11,20 +12,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/chavepix")
+@RequestMapping("/api/chavePix")
 public class ChavePixController {
 
     private final ChavePixService service;
     private final ChavePixMapper mapper;
 
     @PostMapping()
-    public ResponseEntity<ChavePixResponse> create(@RequestBody ChavePixCreationRequest chavePixCreationRequest) {
-        ChavePix chavePix = service.save(chavePixCreationRequest);
-        ChavePixResponse chavePixResponse = mapper.toResponse(chavePix);
+    public ResponseEntity<ChavePixResponse> create(@RequestBody ChavePixRequest chavePixRequest) {
+        Optional<ChavePix> chavePix = service.save(chavePixRequest);
+        ChavePixResponse chavePixResponse = mapper.toResponse(chavePix.get());
         return ResponseEntity.status(HttpStatus.CREATED).body(chavePixResponse);
     }
 
