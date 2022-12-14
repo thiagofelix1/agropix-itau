@@ -31,8 +31,8 @@ public class ChavePixController {
     }
 
     @GetMapping("{chavePixId}")
-    public ResponseEntity<ChavePixResponse> findById(@PathVariable UUID chavePixId) {
-        ChavePix chavePix = service.findById(chavePixId);
+    public ResponseEntity<ChavePixResponse> findById(@PathVariable String chavePixId) {
+        ChavePix chavePix = service.findByChavePix(chavePixId);
         ChavePixResponse chavePixResponse = mapper.toResponse(chavePix);
         return ResponseEntity.status(HttpStatus.OK).body(chavePixResponse);
     }
