@@ -3,7 +3,7 @@ services:
   db:
     image: postgres
     ports:
-      - '5433:5432'
+      - '5432:5432'
     environment:
       POSTGRES_USER: user1
       POSTGRES_PASSWORD: changeme
@@ -13,10 +13,19 @@ services:
     networks:
       - backend
 
+  admin:
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - '8080:8080'
+    networks:
+      - backend
   web:
     build: .
     ports:
-      - "5001:5000"
+      - "5000:5000"
     depends_on:
       - db
     networks:
@@ -24,4 +33,4 @@ services:
 
 networks:
   backend:
-    - name: agropix
+    name: agropix
