@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class ClienteController {
     private final ClienteMapper mapper;
 
     @PostMapping()
-    public ResponseEntity<ClienteResponse> create(@RequestBody ClienteRequest clienteRequest) {
+    public ResponseEntity<ClienteResponse> create(@Valid @RequestBody ClienteRequest clienteRequest) {
         Cliente cliente = service.save(clienteRequest);
         ClienteResponse clienteResponse = mapper.toResponse(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteResponse);
@@ -43,7 +44,7 @@ public class ClienteController {
     }
 
     @PutMapping("{clienteId}")
-    public ResponseEntity<ClienteResponse> update(@RequestBody ClienteRequest clienteRequest, @PathVariable UUID clienteId) {
+    public ResponseEntity<ClienteResponse> update(@Valid @RequestBody ClienteRequest clienteRequest, @PathVariable UUID clienteId) {
         Cliente cliente = service.update(clienteId, clienteRequest);
         ClienteResponse clienteResponse = mapper.toResponse(cliente);
         return ResponseEntity.status(HttpStatus.OK).body(clienteResponse);

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class ChavePixController {
     private final ChavePixMapper mapper;
 
     @PostMapping()
-    public ResponseEntity<ChavePixResponse> create(@RequestBody ChavePixRequest chavePixRequest) {
+    public ResponseEntity<ChavePixResponse> create(@Valid @RequestBody ChavePixRequest chavePixRequest) {
         Optional<ChavePix> chavePix = service.save(chavePixRequest);
         ChavePixResponse chavePixResponse = mapper.toResponse(chavePix.get());
         return ResponseEntity.status(HttpStatus.CREATED).body(chavePixResponse);

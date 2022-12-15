@@ -1,6 +1,7 @@
 package com.agropix.itau.service;
 
 import com.agropix.itau.dto.TipoContaRequest;
+import com.agropix.itau.exceptions.ItemNotExistsException;
 import com.agropix.itau.mapper.TipoContaMapper;
 import com.agropix.itau.model.TipoConta;
 import com.agropix.itau.repository.TipoContaRepository;
@@ -24,7 +25,7 @@ public class TipoContaService {
 
     public TipoConta findTipoContaById(UUID tipoContaId) {
         return repository.findById(tipoContaId)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ItemNotExistsException("Tipo de conta não encontrado"));
     }
 
     public TipoConta update(UUID tipoContaId, TipoContaRequest tipoContaRequest) {

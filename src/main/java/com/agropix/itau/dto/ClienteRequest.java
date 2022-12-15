@@ -1,8 +1,11 @@
 package com.agropix.itau.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
-
+@Getter
+@Setter
 public class ClienteRequest {
 
     @NotNull(message = "Nome do cliente não pode ser nulo!")

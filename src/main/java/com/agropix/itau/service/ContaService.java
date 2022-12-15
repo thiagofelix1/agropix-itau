@@ -3,6 +3,7 @@ package com.agropix.itau.service;
 
 import com.agropix.itau.dto.ContaRequest;
 import com.agropix.itau.dto.ContaResponse;
+import com.agropix.itau.exceptions.ItemNotExistsException;
 import com.agropix.itau.mapper.ContaMapper;
 import com.agropix.itau.model.Cliente;
 import com.agropix.itau.model.Conta;
@@ -37,7 +38,7 @@ public class ContaService {
 
     public Conta findById(UUID contaId) {
         Conta conta = repository.findById(contaId)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada!"));
+                .orElseThrow(() -> new ItemNotExistsException("Conta não encontrada!"));
         return conta;
     }
 

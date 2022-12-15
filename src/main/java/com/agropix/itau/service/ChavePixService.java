@@ -2,6 +2,9 @@ package com.agropix.itau.service;
 
 import com.agropix.itau.dto.ChavePixRequest;
 import com.agropix.itau.dto.ChavePixBacenResponse;
+import com.agropix.itau.exceptions.ChavePixExistenteException;
+import com.agropix.itau.exceptions.FalhaComunicacaoBacenException;
+import com.agropix.itau.exceptions.ItemNotExistsException;
 import com.agropix.itau.mapper.ChavePixMapper;
 import com.agropix.itau.model.ChavePix;
 import com.agropix.itau.model.Conta;
@@ -30,7 +33,7 @@ public class ChavePixService {
 
     public ChavePix findByChavePix(String chavePix) {
         return repository.getChavePixByChavePix(chavePix).orElseThrow(
-                () -> new RuntimeException("Chave pix não encontrada!"));
+                () -> new ItemNotExistsException("Chave pix não encontrada!"));
     }
 
     public Optional<ChavePix> save(ChavePixRequest chavePixRequest) {
@@ -46,8 +49,11 @@ public class ChavePixService {
         else if (response.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
             throw new RuntimeException(response.getBody().toString());
         }
+        else if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
+            throw new ChavePixExistenteException("Está chave já está cadastrada em outro banco, por favor solicitar portabilidade");
+        }
         else {
-            throw new RuntimeException("Não foi possível realizar o cadastro da chave pix");
+            throw new FalhaComunicacaoBacenException("Não foi possível realizar o cadastro da chave pix");
         }
 
     }

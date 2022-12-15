@@ -1,6 +1,7 @@
 package com.agropix.itau.service;
 
 import com.agropix.itau.dto.ClienteRequest;
+import com.agropix.itau.exceptions.ItemNotExistsException;
 import com.agropix.itau.mapper.ClienteMapper;
 import com.agropix.itau.model.Cliente;
 import com.agropix.itau.repository.ClienteRepository;
@@ -25,7 +26,7 @@ public class ClienteService {
 
     public Cliente findById(UUID contaId) {
         return repository.findById(contaId)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado!"));
+                .orElseThrow(() -> new ItemNotExistsException("Cliente não encontrado!"));
     }
 
     public Cliente update(UUID clienteId, ClienteRequest clienteRequest) {

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +22,7 @@ public class TipoContaController {
     private final TipoContaMapper mapper;
 
     @PostMapping()
-    public ResponseEntity<TipoContaResponse> create(@RequestBody TipoContaRequest tipoContaRequest) {
+    public ResponseEntity<TipoContaResponse> create(@Valid @RequestBody TipoContaRequest tipoContaRequest) {
         TipoConta tipoConta = service.create(tipoContaRequest);
         TipoContaResponse tipoContaResponse = mapper.toResponse(tipoConta);
         return ResponseEntity.status(HttpStatus.CREATED).body(tipoContaResponse);
@@ -35,7 +36,7 @@ public class TipoContaController {
     }
 
     @PutMapping("{tipoContaId}")
-    public ResponseEntity<TipoContaResponse> update(@RequestBody TipoContaRequest tipoContaRequest, @PathVariable UUID tipoContaId) {
+    public ResponseEntity<TipoContaResponse> update(@Valid @RequestBody TipoContaRequest tipoContaRequest, @PathVariable UUID tipoContaId) {
         TipoConta tipoConta = service.update(tipoContaId, tipoContaRequest);
         TipoContaResponse tipoContaResponse = mapper.toResponse(tipoConta);
         return ResponseEntity.status(HttpStatus.OK).body(tipoContaResponse);

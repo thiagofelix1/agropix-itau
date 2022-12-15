@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class ContaController {
     private final ContaMapper mapper;
 
     @PostMapping()
-    public ResponseEntity<ContaResponse> create(@RequestBody ContaRequest contaRequest) {
+    public ResponseEntity<ContaResponse> create(@Valid @RequestBody ContaRequest contaRequest) {
         Conta conta = service.save(contaRequest);
         ContaResponse contaResponse = mapper.toResponse(conta);
         return ResponseEntity.status(HttpStatus.CREATED).body(contaResponse);
@@ -43,7 +44,7 @@ public class ContaController {
     }
 
     @PutMapping("{contaId}")
-    public ResponseEntity<ContaResponse> update(@RequestBody ContaRequest contaRequest, @PathVariable UUID contaId) {
+    public ResponseEntity<ContaResponse> update(@Valid @RequestBody ContaRequest contaRequest, @PathVariable UUID contaId) {
         Conta conta = service.update(contaId, contaRequest);
         ContaResponse contaResponse = mapper.toResponse(conta);
         return ResponseEntity.status(HttpStatus.OK).body(contaResponse);
@@ -55,14 +56,14 @@ public class ContaController {
     }
 
     @PostMapping("/{contaId}/deposito")
-    public ResponseEntity<?> deposito(@RequestBody Double valor, @PathVariable UUID contaId) {
+    public ResponseEntity<?> deposito(@Valid @RequestBody Double valor, @PathVariable UUID contaId) {
         Conta conta = service.deposit(contaId, valor);
         ContaResponse contaResponse = mapper.toResponse(conta);
         return ResponseEntity.status(HttpStatus.OK).body(contaResponse);
     }
 
     @PostMapping("/{contaId}/saque")
-    public ResponseEntity<?> saque(@RequestBody Double valor, @PathVariable UUID contaId) {
+    public ResponseEntity<?> saque(@Valid @RequestBody Double valor, @PathVariable UUID contaId) {
         Conta conta = service.withdraw(contaId, valor);
         ContaResponse contaResponse = mapper.toResponse(conta);
         return ResponseEntity.status(HttpStatus.OK).body(contaResponse);
