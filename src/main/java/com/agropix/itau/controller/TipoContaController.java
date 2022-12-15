@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,6 +27,13 @@ public class TipoContaController {
         TipoConta tipoConta = service.create(tipoContaRequest);
         TipoContaResponse tipoContaResponse = mapper.toResponse(tipoConta);
         return ResponseEntity.status(HttpStatus.CREATED).body(tipoContaResponse);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<TipoContaResponse>> findAll() {
+        List<TipoConta> tipoContaList = service.findAll();
+        List<TipoContaResponse> tipoContaResponseList = mapper.toTipoContaResponseList(tipoContaList);
+        return ResponseEntity.status(HttpStatus.OK).body(tipoContaResponseList);
     }
 
     @GetMapping("{tipoContaId}")

@@ -14,6 +14,6 @@ public interface TipoContaMapper {
 
     TipoContaResponse toResponse(TipoConta tipoConta);
     TipoConta toModel(TipoContaRequest tipoContaRequest);
-    List<TipoContaResponse> toModelList(List<TipoConta> listaTipoConta);
+    List<TipoContaResponse> toTipoContaResponseList(List<TipoConta> listaTipoConta);
 
 }
