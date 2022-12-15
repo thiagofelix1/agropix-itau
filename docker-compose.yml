@@ -24,7 +24,7 @@ services:
     networks:
       - backend
   web_itau:
-    container_name: "web_itau"
+    container_name: "itau"
     build: .
     ports:
       - "5000:5000"
