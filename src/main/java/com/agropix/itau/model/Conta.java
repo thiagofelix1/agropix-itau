@@ -58,15 +58,22 @@ public class Conta {
     }
 
     public void deposito(Double valor) {
+        verificarValorNegativo(valor);
         saldo+=valor;
     }
 
     public void saque(Double valor) {
-
+        verificarValorNegativo(valor);
         if (saldo < valor) {
             throw new IllegalArgumentException("valor socilitado de saque é maior que o saldo");
         }
         saldo -= valor;
+    }
+
+    private void verificarValorNegativo(Double valor) {
+        if (valor <= 0) {
+            throw new IllegalArgumentException("valor da operação não pode ser negativo ou zero.");
+        }
     }
 
     public void setId(UUID id) {

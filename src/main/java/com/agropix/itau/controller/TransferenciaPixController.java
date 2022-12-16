@@ -1,15 +1,13 @@
 package com.agropix.itau.controller;
 
-import com.agropix.itau.dto.ChavePixRequest;
+import com.agropix.itau.dto.InfoChavePixBacen;
 import com.agropix.itau.dto.TransferenciaPixRequest;
 import com.agropix.itau.dto.TransferenciaPixResponse;
 import com.agropix.itau.service.TransferenciaPixService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -22,7 +20,14 @@ public class TransferenciaPixController {
 
     @PostMapping
     public ResponseEntity<TransferenciaPixResponse> transfer(@Valid @RequestBody TransferenciaPixRequest transferenciaPixRequest) {
-        return null;
+        TransferenciaPixResponse transferenciaPixResponse = service.transfer(transferenciaPixRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(transferenciaPixResponse);
+    }
+
+    @GetMapping("/dados-chave/{chavePix}")
+    public ResponseEntity<InfoChavePixBacen> getDadosChave(@PathVariable String chavePix) {
+        InfoChavePixBacen infoChavePixBacen = service.buscarInformacoesChavePix(chavePix);
+        return ResponseEntity.status(HttpStatus.OK).body(infoChavePixBacen);
     }
 
 }

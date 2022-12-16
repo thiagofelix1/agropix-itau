@@ -1,7 +1,11 @@
 package com.agropix.itau.service;
 
+import com.agropix.itau.dto.InfoChavePixBacen;
 import com.agropix.itau.dto.TransferenciaPixRequest;
 import com.agropix.itau.dto.TransferenciaPixResponse;
+import com.agropix.itau.model.ChavePix;
+import com.agropix.itau.model.StatusTransferencia;
+import com.agropix.itau.model.TransferenciaPix;
 import com.agropix.itau.repository.TransferenciaPixRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,26 +22,46 @@ public class TransferenciaPixService {
 
     private final ContaService contaService;
     private final TransferenciaPixRepository repository;
+    private final ChavePixService chavePixService;
     private final RestTemplate restTemplate;
 
-    public ResponseEntity<TransferenciaPixResponse> transfer(TransferenciaPixRequest transferenciaPixRequest) {
+    public TransferenciaPixResponse transfer(TransferenciaPixRequest transferenciaPixRequest) {
+        ChavePix chavePixOrigem = chavePixService.findByChavePix(transferenciaPixRequest.getChaveOrigem());
+        ChavePix chavePixDestino = chavePixService.findByChavePix(transferenciaPixRequest.getChaveDestino());
 
-        // ToDo: Lógica de realização de débito
+        TransferenciaPix transferenciaPix = TransferenciaPix.builder()
+                .chaveOrigem(chavePixOrigem)
+                .chaveDestino(chavePixDestino)
+                .valor(transferenciaPixRequest.getValor())
+                .statusTransferencia(StatusTransferencia.PENDENTE)
+                .build();
+        repository.save(transferenciaPix);
+        contaService.withdraw(chavePixOrigem.getConta().getId(), transferenciaPix.getValor());
+
 
         String req = jsonBacenBuilder(transferenciaPixRequest);
         ResponseEntity<TransferenciaPixResponse> response =  restTemplate.postForEntity("/transferencia-pix", req, TransferenciaPixResponse.class);
         if (response.getStatusCode() == HttpStatus.OK) {
-
-            // ToDo: Lógica de realização saque
-
+            transferenciaPix.setStatusTransferencia(StatusTransferencia.CONCLUIDA);
         }
-        else if (response.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
+        else {
+            transferenciaPix.setStatusTransferencia(StatusTransferencia.CANCELADA);
+            contaService.deposit(transferenciaPix.getChaveOrigem().getConta().getId(), transferenciaPix.getValor());
             throw new RuntimeException(response.getBody().toString());
         }
-
-        return response;
+        repository.save(transferenciaPix);
+        return response.getBody();
     }
 
+    public InfoChavePixBacen buscarInformacoesChavePix(String chave) {
+        String url = "/chavePix/";
+        ResponseEntity<InfoChavePixBacen> response = restTemplate.getForEntity(url, InfoChavePixBacen.class);
+
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new RuntimeException(response.getBody().toString());
+        }
+        return response.getBody();
+    }
     private String jsonBacenBuilder(TransferenciaPixRequest transferenciaPixRequest) {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -58,5 +82,4 @@ public class TransferenciaPixService {
 
         return json;
     }
-
 }
