@@ -4,7 +4,6 @@ import com.agropix.itau.dto.InfoChavePixBacen;
 import com.agropix.itau.dto.TransferenciaPixRequest;
 import com.agropix.itau.dto.TransferenciaPixResponse;
 import com.agropix.itau.model.ChavePix;
-import com.agropix.itau.model.Conta;
 import com.agropix.itau.model.StatusTransferencia;
 import com.agropix.itau.model.TransferenciaPix;
 import com.agropix.itau.repository.TransferenciaPixRepository;
@@ -28,11 +27,10 @@ public class TransferenciaPixService {
 
     public TransferenciaPixResponse transfer(TransferenciaPixRequest transferenciaPixRequest) {
         ChavePix chavePixOrigem = chavePixService.findByChavePix(transferenciaPixRequest.getChaveOrigem());
-        ChavePix chavePixDestino = chavePixService.findByChavePix(transferenciaPixRequest.getChaveDestino());
 
         TransferenciaPix transferenciaPix = TransferenciaPix.builder()
                 .chaveOrigem(chavePixOrigem)
-                .chaveDestino(chavePixDestino)
+                .chaveDestino(transferenciaPixRequest.getChaveDestino())
                 .valor(transferenciaPixRequest.getValor())
                 .statusTransferencia(StatusTransferencia.PENDENTE)
                 .build();
@@ -51,7 +49,9 @@ public class TransferenciaPixService {
             throw new RuntimeException(response.getBody().toString());
         }
         repository.save(transferenciaPix);
-        return response.getBody();
+        TransferenciaPixResponse transferenciaPixResponse = response.getBody();
+        transferenciaPixResponse.setStatusTransferencia(transferenciaPix.getStatusTransferencia());
+        return transferenciaPixResponse;
     }
 
     public InfoChavePixBacen buscarInformacoesChavePix(String chave) {

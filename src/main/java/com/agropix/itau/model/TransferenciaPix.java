@@ -24,9 +24,8 @@ public class TransferenciaPix {
     @JoinColumn(name = "chave_origem_id")
     private ChavePix chaveOrigem;
 
-    @ManyToOne
-    @JoinColumn(name = "chave_destino_id")
-    private ChavePix chaveDestino;
+    @Column
+    private String chaveDestino;
 
     @Column
     private Double valor;

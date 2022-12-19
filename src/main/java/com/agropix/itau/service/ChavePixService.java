@@ -63,7 +63,7 @@ public class ChavePixService {
 
     public ChavePix findById(UUID chavePixId) {
         return repository.findById(chavePixId)
-                .orElseThrow(() -> new RuntimeException("Chave Pix não encontrada!"));
+                .orElseThrow(() -> new ItemNotExistsException("Chave Pix não encontrada!"));
     }
 
     public List<ChavePix> findAll() {

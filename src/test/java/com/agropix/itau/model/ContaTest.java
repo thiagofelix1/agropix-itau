@@ -1,5 +1,6 @@
 package com.agropix.itau.model;
 
+import com.agropix.itau.exceptions.SaldoInsuficienteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,5 +34,14 @@ public class ContaTest {
         conta.deposito(100.00);
         conta.saque(valorSaque);
         assertEquals(50, conta.getSaldo());
+    }
+
+    @Test
+    public void deve_falhar_ao_sacar_valor_maior_que_saldo() {
+        Double valorSaque = 100.00;
+        conta.deposito(50.00);
+        assertThrows(SaldoInsuficienteException.class, () -> {
+            conta.saque(valorSaque);
+        });
     }
 }
