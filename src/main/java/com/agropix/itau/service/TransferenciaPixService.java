@@ -4,6 +4,7 @@ import com.agropix.itau.dto.InfoChavePixBacen;
 import com.agropix.itau.dto.TransferenciaPixRequest;
 import com.agropix.itau.dto.TransferenciaPixResponse;
 import com.agropix.itau.model.ChavePix;
+import com.agropix.itau.model.Conta;
 import com.agropix.itau.model.StatusTransferencia;
 import com.agropix.itau.model.TransferenciaPix;
 import com.agropix.itau.repository.TransferenciaPixRepository;
@@ -62,6 +63,12 @@ public class TransferenciaPixService {
         }
         return response.getBody();
     }
+
+    public void receberPix(String chaveDestino, Double valor) {
+        ChavePix chavePix = chavePixService.findByChavePix(chaveDestino);
+        contaService.deposit(chavePix.getConta().getId(), valor);
+    }
+
     private String jsonBacenBuilder(TransferenciaPixRequest transferenciaPixRequest) {
 
         ObjectMapper objectMapper = new ObjectMapper();

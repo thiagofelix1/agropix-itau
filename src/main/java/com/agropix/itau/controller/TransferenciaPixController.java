@@ -1,6 +1,7 @@
 package com.agropix.itau.controller;
 
 import com.agropix.itau.dto.InfoChavePixBacen;
+import com.agropix.itau.dto.NotificacaoBacenRequest;
 import com.agropix.itau.dto.TransferenciaPixRequest;
 import com.agropix.itau.dto.TransferenciaPixResponse;
 import com.agropix.itau.service.TransferenciaPixService;
@@ -28,6 +29,12 @@ public class TransferenciaPixController {
     public ResponseEntity<InfoChavePixBacen> getDadosChave(@PathVariable String chavePix) {
         InfoChavePixBacen infoChavePixBacen = service.buscarInformacoesChavePix(chavePix);
         return ResponseEntity.status(HttpStatus.OK).body(infoChavePixBacen);
+    }
+
+    @PostMapping("/notificacao")
+    public ResponseEntity<?> getNotificacaoTransferencia(@Valid @RequestBody NotificacaoBacenRequest notificacaoBacenRequest) {
+        service.receberPix(notificacaoBacenRequest.getChaveDestino(), notificacaoBacenRequest.getValor());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
