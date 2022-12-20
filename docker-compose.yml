@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  db:
+    container_name: "postgres_itau"
+    image: postgres
+    ports:
+      - '5430:5432'
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: itauunibanco
+      POSTGRES_DB: banco_itau_db
+    volumes:
+      - /db/
+    networks:
+      - backend
+
+  admin:
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - '8080:8080'
+    networks:
+      - backend
+  web_itau:
+    container_name: "itau"
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: agropix
