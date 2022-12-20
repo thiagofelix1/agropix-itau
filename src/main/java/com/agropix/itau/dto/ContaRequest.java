@@ -18,7 +18,5 @@ public class ContaRequest {
     private UUID clienteId;
     @NotNull(message = "Id do tipo da conta não pode ser nulo!")
     private UUID tipoContaId;
-    @NotNull(message = "Nome do banco não pode ser nulo!")
-    private String nomeBanco;
 
 }

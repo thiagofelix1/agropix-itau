@@ -2,6 +2,7 @@ package com.agropix.itau.model;
 
 import com.agropix.itau.exceptions.SaldoInsuficienteException;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -41,20 +42,19 @@ public class Conta {
 
     @Column
     @NotNull
-    private String nomeBanco;
+    private String nomeBanco = "ITAU";
 
     public Conta() {
         this.saldo = 0.0;
     }
 
-    public Conta(UUID id, Long numeroConta, Integer digito, String agencia, Cliente cliente, TipoConta tipoConta, String nomeBanco) {
+    public Conta(UUID id, Long numeroConta, Integer digito, String agencia, Cliente cliente, TipoConta tipoConta) {
         this.id = id;
         this.numeroConta = numeroConta;
         this.digito = digito;
         this.agencia = agencia;
         this.cliente = cliente;
         this.tipoConta = tipoConta;
-        this.nomeBanco = nomeBanco;
         this.saldo = 0.0;
     }
 

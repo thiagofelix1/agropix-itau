@@ -43,7 +43,7 @@ public class ServicesFactory {
 
     public static Conta createConta() {
         Conta conta = new Conta(UUID.randomUUID(), 554684L, 2, "Alvorada",
-                createCliente(), createTipoConta(), "Itaú");
+                createCliente(), createTipoConta());
         return conta;
     }
 

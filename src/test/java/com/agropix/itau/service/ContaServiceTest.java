@@ -99,7 +99,6 @@ public class ContaServiceTest {
         contaRequest.setNumeroConta(conta.getNumeroConta());
         contaRequest.setDigito(conta.getDigito());
         contaRequest.setAgencia(conta.getAgencia());
-        contaRequest.setNomeBanco(conta.getNomeBanco());
         contaRequest.setClienteId(conta.getCliente().getId());
         contaRequest.setTipoContaId(conta.getTipoConta().getId());
         return contaRequest;

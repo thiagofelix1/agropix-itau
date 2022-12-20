@@ -18,7 +18,7 @@ public class ContaTest {
     void setup() {
         Cliente cliente = new Cliente();
         TipoConta tipoConta = new TipoConta(UUID.randomUUID(), "Corrente");
-        conta = new Conta(UUID.randomUUID(), 1515L, 2, "alvorada", cliente, tipoConta, "Itaú");
+        conta = new Conta(UUID.randomUUID(), 1515L, 2, "alvorada", cliente, tipoConta);
     }
 
     @Test
